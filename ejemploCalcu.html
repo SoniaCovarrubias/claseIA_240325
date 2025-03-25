@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practicar Tablas de Multiplicar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .question {
+            margin: 20px 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        .animal-img {
+            display: block;
+            margin: 10px auto;
+            width: 100px;
+            height: auto;
+        }
+        input[type="number"] {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #5c67f2;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Practica las Tablas de Multiplicar!</h1>
+        <img src="https://example.com/animal.png" alt="Animal" class="animal-img">
+        <div class="question"></div>
+        <input type="number" id="answer" placeholder="Escribe tu respuesta aquí">
+        <button onclick="checkAnswer()">Comprobar Respuesta</button>
+        <div class="result"></div>
+    </div>
+
+    <script>
+        const imgElement = document.querySelector('.animal-img');
+        const questionElement = document.querySelector('.question');
+        const resultElement = document.querySelector('.result');
+        let correctAnswer;
+
+        function generateMultiplication() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            correctAnswer = num1 * num2;
+            questionElement.textContent = `¿Cuánto es ${num1} x ${num2}?`;
+            imgElement.src = 'https://example.com/animal' + num1 + '.png'; // Asumiendo que hay imágenes para cada número
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer').value;
+            if (parseInt(userAnswer) === correctAnswer) {
+                resultElement.textContent = '¡Correcto! Buen trabajo.';
+                resultElement.style.color = 'green';
+            } else {
+                resultElement.textContent = 'Incorrecto, intenta de nuevo.';
+                resultElement.style.color = 'red';
+            }
+            generateMultiplication(); // Generar nueva pregunta
+        }
+
+        window.onload = generateMultiplication;
+    </script>
+</body>
+</html>
