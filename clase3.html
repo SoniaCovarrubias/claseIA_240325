@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Trivia de Conocimientos Generales</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .correct { background-color: lightgreen; }
+        .incorrect { background-color: lightcoral; }
+        button { margin-top: 20px; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+    <h1>Trivia de Conocimientos Generales</h1>
+    <div id="question"></div>
+    <ul id="answers"></ul>
+    <button onclick="nextQuestion()" disabled>Siguiente</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Cuál es la capital de Francia?",
+                answers: { a: "Madrid", b: "París", c: "Londres", d: "Berlín" },
+                correctAnswer: "b"
+            },
+            {
+                question: "¿Cuál es el río más largo del mundo?",
+                answers: { a: "Amazonas", b: "Nilo", c: "Yangtsé", d: "Misisipi" },
+                correctAnswer: "a"
+            },
+            // Agrega más preguntas aquí
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            document.getElementById('question').innerHTML = questions[currentQuestion].question;
+            let answersHtml = '';
+            for (let key in questions[currentQuestion].answers) {
+                answersHtml += `<li onclick="selectAnswer('${key}', this)">${questions[currentQuestion].answers[key]}</li>`;
+            }
+            document.getElementById('answers').innerHTML = answersHtml;
+            document.querySelector('button').disabled = true;
+        }
+
+        function selectAnswer(answer, liElement) {
+            let correctAnswer = questions[currentQuestion].correctAnswer;
+            document.querySelectorAll('#answers li').forEach(li => {
+                li.onclick = null;
+                if (li.textContent === questions[currentQuestion].answers[correctAnswer]) {
+                    li.classList.add('correct', 'animate__animated', 'animate__flash');
+                }
+            });
+
+            if (answer === correctAnswer) {
+                score++;
+            } else {
+                liElement.classList.add('incorrect', 'animate__animated', 'animate__flash');
+            }
+
+            document.querySelector('button').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            let resultText = `Tu puntuación final es: ${score} de ${questions.length}. `;
+            resultText += score > 7 ? "¡Excelente trabajo!" : score > 4 ? "Buen esfuerzo, sigue practicando." : "Sigue intentando, puedes mejorar.";
+            document.getElementById('result').innerHTML = resultText;
+            document.querySelector('button').style.display = 'none';
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
